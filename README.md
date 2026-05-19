@@ -38,15 +38,6 @@ Compared with the official DPImageBench codebase, this version includes the foll
    - `evaluation/classifier/resnet_18.py`
    - `evaluation/classifier/dense121.py`
 
-5. Added a synthetic sample example
-
-   A generated sample example is provided under:
-
-   ```text
-   exp/privimage/
-   ```
-
-   Please note that files under `exp/` are experiment outputs. Before publishing this repository publicly, check whether these files should be kept, removed, or provided through an external download link.
 
 ## Installation
 
@@ -68,9 +59,33 @@ Please prepare datasets following the official DPImageBench data preparation ins
 
 The added scripts assume that the DPImageBench data loading pipeline is already correctly configured. In particular, dataset paths, method configurations, and generated sample paths should be checked before running the scripts.
 
+## Generate DP Synthetic Dataset
+
+Before training classifiers or evaluating distilled data, first run the original DPImageBench synthesis pipeline to generate a differentially private synthetic dataset.
+
+For example:
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1,2,3 python run.py \
+  setup.n_gpus_per_node=4 \
+  --method PrivImage \
+  --data_name cifar10_32 \
+  --epsilon 1.0
+```
+
+If your available GPU IDs are different, change `CUDA_VISIBLE_DEVICES` accordingly.
+
+This step produces synthetic samples under the experiment output directory, such as:
+
+```text
+./exp/privimage/cifar10_32_eps1.0_synthetic_dataset/gen/gen.npz
+```
+
+The following classifier training and utility evaluation scripts use this generated `.npz` file as input by default. If your generated dataset is saved to another path, update `gen_path` in the corresponding script before running it.
+
 ## Usage
 
-After completing environment installation and dataset preparation according to DPImageBench, run the added scripts from the project root.
+After completing environment installation, dataset preparation, and DP synthetic dataset generation according to DPImageBench, run the added scripts from the project root.
 
 ### Train DP Classifier
 
