@@ -113,7 +113,7 @@ python train_semantic_anchor_classifier.py \
   --epsilon 1.0
 ```
 
-This script enables semantic/hierarchical data loading and then trains the classifier using the generated synthetic samples.
+This script enables semantic data loading and then trains the classifier using the semantic data the and generated synthetic samples.
 
 ### Evaluate Distilled Data Utility
 
